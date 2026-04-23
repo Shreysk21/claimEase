@@ -29,7 +29,7 @@ app = FastAPI(
 # CORS — allow frontend dev server
 app.add_middleware(
     CORSMiddleware,
-    allow_origins     = ["*"],
+    allow_origins     = ["http://localhost:3000", "http://localhost:3001", "http://localhost:5173","https://claim-ease-git-main-shreya-kales-projects.vercel.app"],
     allow_credentials = True,
     allow_methods     = ["*"],
     allow_headers     = ["*"],
