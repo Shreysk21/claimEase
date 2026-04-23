@@ -1,8 +1,0 @@
-{
-  "name": "MedReimburse",
-  "description": "A high-security, automated government medical reimbursement system featuring AI-powered document scrutiny, cryptographic hashing for audit trails, and a 5-level digital workflow.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
-}
