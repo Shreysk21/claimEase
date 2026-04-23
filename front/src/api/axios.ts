@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 
 const api = axios.create({
   baseURL: 'https://claimease-algp.onrender.com',
+  
 });
 
 api.interceptors.request.use((config) => {
