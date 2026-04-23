@@ -642,42 +642,61 @@ export const ClaimReviewPage: React.FC = () => {
                       <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1">Amount to be disbursed</p>
                       <p className="text-2xl font-bold text-accent-violet font-space">{formatCurrency(claim.eligible_reimbursement_amount || 0)}</p>
                     </div>
-                    
-                    {!showSanctionConfirm ? (
-                      <div className="space-y-2">
-                        <GradientButton variant="outline" fullWidth className="gap-2 border-accent-amber/30 text-accent-amber hover:bg-accent-amber/5" onClick={() => setShowQueryModal(true)}>
-                          <MessageSquare size={18} /> Raise Query
-                        </GradientButton>
-                        <GradientButton
-  variant="outline"
-  fullWidth
-  className="gap-2 border-accent-red/30 text-accent-red hover:bg-accent-red/5"
-  onClick={() => setShowRejectModal(true)}
->
-  <X size={18} /> Reject Claim
-</GradientButton>
-                      <GradientButton 
-                        fullWidth 
-                        className="py-4 text-lg bg-linear-to-br from-accent-violet to-accent-purple"
-                        onClick={() => setShowSanctionConfirm(true)}
-                      >
-                        <Stamp className="mr-2" size={24} /> Grant Final Sanction
-                      </GradientButton>
+
+                    {/* Hide action buttons once claim is sanctioned or payment processed */}
+                    {claim.claim_status === 'DDO_SANCTIONED' || claim.claim_status === 'PAYMENT_PROCESSED' ? (
+                      <div className="p-6 bg-accent-green/10 border border-accent-green/20 rounded-2xl text-center space-y-3">
+                        <div className="w-16 h-16 mx-auto rounded-full bg-accent-green/20 flex items-center justify-center">
+                          <Check size={32} className="text-accent-green" />
+                        </div>
+                        <h4 className="text-lg font-bold text-accent-green font-space">
+                          {claim.claim_status === 'PAYMENT_PROCESSED' ? 'Payment Processed' : 'Claim Sanctioned'}
+                        </h4>
+                        <p className="text-xs text-text-muted">
+                          {claim.claim_status === 'PAYMENT_PROCESSED'
+                            ? 'This claim has been fully processed and payment has been initiated via PFMS.'
+                            : 'This claim has been sanctioned. Payment processing is underway.'}
+                        </p>
                       </div>
                     ) : (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="p-6 bg-white/5 border border-white/10 rounded-2xl space-y-4"
-                      >
-                        <p className="text-sm text-text-primary text-center">
-                          Confirm sanctioning <span className="font-bold text-accent-violet">{formatCurrency(claim.eligible_reimbursement_amount || 0)}</span> for claim {claim.claim_number}? This will trigger PFMS payment.
-                        </p>
-                        <div className="flex gap-3">
-                          <GradientButton variant="outline" fullWidth onClick={() => setShowSanctionConfirm(false)}>Cancel</GradientButton>
-                          <GradientButton variant="success" fullWidth onClick={() => handleAction('APPROVE')}>Confirm</GradientButton>
-                        </div>
-                      </motion.div>
+                      <>
+                        {!showSanctionConfirm ? (
+                          <div className="space-y-2">
+                            <GradientButton variant="outline" fullWidth className="gap-2 border-accent-amber/30 text-accent-amber hover:bg-accent-amber/5" onClick={() => setShowQueryModal(true)}>
+                              <MessageSquare size={18} /> Raise Query
+                            </GradientButton>
+                            <GradientButton
+                              variant="outline"
+                              fullWidth
+                              className="gap-2 border-accent-red/30 text-accent-red hover:bg-accent-red/5"
+                              onClick={() => setShowRejectModal(true)}
+                            >
+                              <X size={18} /> Reject Claim
+                            </GradientButton>
+                            <GradientButton 
+                              fullWidth 
+                              className="py-4 text-lg bg-linear-to-br from-accent-violet to-accent-purple"
+                              onClick={() => setShowSanctionConfirm(true)}
+                            >
+                              <Stamp className="mr-2" size={24} /> Grant Final Sanction
+                            </GradientButton>
+                          </div>
+                        ) : (
+                          <motion.div 
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="p-6 bg-white/5 border border-white/10 rounded-2xl space-y-4"
+                          >
+                            <p className="text-sm text-text-primary text-center">
+                              Confirm sanctioning <span className="font-bold text-accent-violet">{formatCurrency(claim.eligible_reimbursement_amount || 0)}</span> for claim {claim.claim_number}? This will trigger PFMS payment.
+                            </p>
+                            <div className="flex gap-3">
+                              <GradientButton variant="outline" fullWidth onClick={() => setShowSanctionConfirm(false)}>Cancel</GradientButton>
+                              <GradientButton variant="success" fullWidth onClick={() => handleAction('APPROVE')}>Confirm</GradientButton>
+                            </div>
+                          </motion.div>
+                        )}
+                      </>
                     )}
                   </div>
                 )}
