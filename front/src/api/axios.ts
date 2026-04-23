@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const api = axios.create({
-  baseURL: 'https://claim-ease-git-main-shreya-kales-projects.vercel.app',
+  baseURL: 'https://claimease-algp.onrender.com/api',
 });
 
 api.interceptors.request.use((config) => {
